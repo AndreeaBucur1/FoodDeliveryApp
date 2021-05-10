@@ -6,6 +6,7 @@ import ServiceClasses.ManagerServices;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -23,6 +24,14 @@ public class Main {
             System.out.println("Option 4: Exit");
             System.out.println();
 
+            try {
+                ArrayList <Category> categories = databaseConnection.getAllCategories();
+                System.out.println(categories);
+                ArrayList<Account> accounts = databaseConnection.getAllAccounts();
+                System.out.println(accounts);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
             Scanner scan = new Scanner(System.in);
             option = scan.nextInt();
             if (option == 1) {
@@ -37,7 +46,7 @@ public class Main {
                 try {
                     createObjects.createAccount();
                 } catch (SQLException throwables) {
-                    throwables.printStackTrace();
+                    System.out.println("This account already exists");
                 }
             }
             else if(option == 4){

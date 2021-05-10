@@ -33,7 +33,7 @@ public class ManagerServices {
                     try {
                         createObjects.addCategory();
                     } catch (SQLException throwables) {
-                        throwables.printStackTrace();
+                        System.out.println("This category already exists");
                     }
                 }
 
