@@ -2,6 +2,7 @@ package Classes;
 
 import Database.DatabaseConnection;
 import ServiceClasses.CreateObjects;
+import ServiceClasses.ManagerServices;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -25,12 +26,13 @@ public class Main {
             Scanner scan = new Scanner(System.in);
             option = scan.nextInt();
             if (option == 1) {
-                validOption = true;
+
             } else if (option == 2) {
-                validOption = true;
+                ManagerServices managerServices = new ManagerServices();
+                managerServices.managerServices();
             }
             else if(option == 3){
-                validOption = true;
+
                 CreateObjects createObjects = new CreateObjects();
                 try {
                     createObjects.createAccount();
@@ -39,7 +41,6 @@ public class Main {
                 }
             }
             else if(option == 4){
-                validOption = true;
             }
 
         } while (option != 4);

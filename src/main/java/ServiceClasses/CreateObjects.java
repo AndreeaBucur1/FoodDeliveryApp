@@ -25,4 +25,15 @@ public class CreateObjects {
 
 
     }
+
+    public void addCategory() throws SQLException {
+        System.out.print("Enter the name of the category you want to add: ");
+        String categoryName = scanner.next();
+        PreparedStatement preparedStatement = null;
+        preparedStatement = connection.prepareStatement("insert into category (categoryname) values (?)");
+        preparedStatement.setString(1,categoryName);
+        preparedStatement.execute();
+
+
+    }
 }
