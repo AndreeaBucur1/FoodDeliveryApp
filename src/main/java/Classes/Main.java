@@ -1,6 +1,10 @@
+package Classes;
+
 import Database.DatabaseConnection;
+import ServiceClasses.CreateObjects;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Main {
@@ -14,6 +18,7 @@ public class Main {
             System.out.println();
             System.out.println("Option 1: Connect to your account");
             System.out.println("Option 2: Connect as manager");
+            System.out.println("Option 3: Create account");
             System.out.println("Option 4: Exit");
             System.out.println();
 
@@ -26,12 +31,18 @@ public class Main {
             }
             else if(option == 3){
                 validOption = true;
+                CreateObjects createObjects = new CreateObjects();
+                try {
+                    createObjects.createAccount();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
             }
             else if(option == 4){
                 validOption = true;
             }
 
-        } while (!validOption);
+        } while (option != 4);
 
 
     }

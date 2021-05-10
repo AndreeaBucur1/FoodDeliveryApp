@@ -21,6 +21,8 @@ public class ManagerServices {
             System.out.println("Choose an option:");
             System.out.println();
             System.out.println("Option 1: Add new product");
+            System.out.println("Option 2: Add new category");
+
 
         }
 
