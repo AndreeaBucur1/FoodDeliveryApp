@@ -29,6 +29,13 @@ public class ManagerServices {
             do {
                 System.out.print("Enter the number of the option: ");
                 option = scanner.nextInt();
+                if(option == 1){
+                    try {
+                        createObjects.addProduct();
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+                }
                 if(option == 2){
                     try {
                         createObjects.addCategory();

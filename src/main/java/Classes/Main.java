@@ -5,16 +5,19 @@ import ServiceClasses.CreateObjects;
 import ServiceClasses.ManagerServices;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         DatabaseConnection databaseConnection = new DatabaseConnection();
         Connection connection = databaseConnection.Connection();
         int option;
         boolean validOption = false;
+
         do {
             System.out.println("Choose an option");
             System.out.println();
@@ -42,14 +45,15 @@ public class Main {
             }
             else if(option == 3){
 
-                CreateObjects createObjects = new CreateObjects();
+                CreateObjects createObjectss = new CreateObjects();
                 try {
-                    createObjects.createAccount();
+                    createObjectss.createAccount();
                 } catch (SQLException throwables) {
                     System.out.println("This account already exists");
                 }
             }
             else if(option == 4){
+                break;
             }
 
         } while (option != 4);
