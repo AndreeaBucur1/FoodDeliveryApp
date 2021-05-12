@@ -1,6 +1,7 @@
 package Classes;
 
 import Database.DatabaseConnection;
+import ServiceClasses.ClientServices;
 import ServiceClasses.CreateObjects;
 import ServiceClasses.ManagerServices;
 
@@ -38,6 +39,15 @@ public class Main {
             Scanner scan = new Scanner(System.in);
             option = scan.nextInt();
             if (option == 1) {
+
+                ClientServices clientServices = new ClientServices();
+                Account account = clientServices.connectToAccount();
+                if(account == null){
+                    System.out.println("Failed attempt to connect to your account");
+                }
+                else {
+                    clientServices.clientServices(account);
+                }
 
             } else if (option == 2) {
                 ManagerServices managerServices = new ManagerServices();
