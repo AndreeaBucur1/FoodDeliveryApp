@@ -3,8 +3,8 @@ import Database.DatabaseConnection;
 import Classes.*;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.sql.Date;
+import java.util.*;
 
 public class CreateObjects {
     DisplayObjects displayObjects = new DisplayObjects();
@@ -78,6 +78,51 @@ public class CreateObjects {
             preparedStatement.setFloat(3,price);
             preparedStatement.setString(4,description);
             preparedStatement.execute();
+        }
+    }
+
+    public void addOrder(Order order) throws SQLException {
+        PreparedStatement preparedStatement = null;
+        preparedStatement = connection.prepareStatement("insert into orders (clientId,totalPrice,adress,orderDate) values (?,?,?,?)");
+        preparedStatement.setInt(1,order.getClientId());
+        preparedStatement.setFloat(2,order.getTotalPrice());
+        preparedStatement.setString(3,order.getAdress());
+        preparedStatement.setDate(4, Date.valueOf(order.getOrderDate()));
+        preparedStatement.execute();
+
+
+        System.out.println(order.getProducts());
+        addProductsToOrder(order);
+
+    }
+
+    public void addProductsToOrder(Order order) throws SQLException {
+        PreparedStatement preparedStatement;
+        ArrayList<Order> orders = databaseConnection.getAllOrders();
+        orders.sort(Comparator.comparing(Order::getOrderId));
+        System.out.println(orders);
+        int lastId = orders.get(orders.size() - 1).getOrderId();
+        order.setOrderId(lastId);
+        ArrayList<Integer> checked = new ArrayList<>();
+        for (Product product : order.getProducts()) {
+            preparedStatement = null;
+            if(checked.contains(product.getProductId()) == false) {
+                int quantity = 0;
+                for(Product product1 : order.getProducts()){
+                    if(product1.getProductId() == product.getProductId()){
+                        quantity++;
+                    }
+                }
+                checked.add(product.getProductId());
+
+                preparedStatement = connection.prepareStatement("insert into orderHasProducts values (?,?,?)");
+                preparedStatement.setInt(1, order.getOrderId());
+                preparedStatement.setInt(2, product.getProductId());
+                preparedStatement.setInt(3, quantity);
+                preparedStatement.execute();
+            }
+
+
         }
     }
 }

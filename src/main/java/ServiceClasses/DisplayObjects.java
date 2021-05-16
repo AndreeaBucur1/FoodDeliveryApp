@@ -1,7 +1,7 @@
 package ServiceClasses;
 
 import Database.DatabaseConnection;
-import Classes.Category;
+import Classes.*;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -22,6 +22,12 @@ public class DisplayObjects {
             throwables.printStackTrace();
         }
 
+    }
+
+    public void displayProducts(ArrayList<Product> products){
+        for(Product product : products){
+            System.out.println(product.getProductId() + " " + product.getProductName() + " " + product.getPrice() + " " + product.getDescription());
+        }
     }
 
 }

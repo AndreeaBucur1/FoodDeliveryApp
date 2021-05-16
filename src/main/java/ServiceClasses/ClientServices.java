@@ -1,12 +1,15 @@
 package ServiceClasses;
 
-import Classes.Account;
+import Classes.*;
 import Database.DatabaseConnection;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.util.AbstractList;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Stack;
 
@@ -15,6 +18,10 @@ public class ClientServices {
     DatabaseConnection databaseConnection = new DatabaseConnection();
     Connection connection = databaseConnection.Connection();
     Scanner scanner = new Scanner(System.in);
+    DisplayObjects displayObjects = new DisplayObjects();
+    CreateObjects createObjects = new CreateObjects();
+
+
     public Account connectToAccount() throws SQLException {
         System.out.print("Enter email: ");
         String email = scanner.next();
@@ -62,9 +69,85 @@ public class ClientServices {
                     throwables.printStackTrace();
                 }
             }
+            else if(option == 2){
+                placeOrder(account.getAccountId());
+            }
 
             
 
         }while (option!=5);
     }
+
+    public void placeOrder(int clientId){
+        System.out.println("Choose a category: ");
+        displayObjects.displayCategories();
+        ArrayList<Product> products = new ArrayList<>();
+        int categoryId;
+        do {
+            System.out.print("Enter the id of the category or -1 to exit: ");
+            categoryId = scanner.nextInt();
+            if(categoryId == -1){
+                System.out.println("Done");
+            }
+            else{
+
+                try {
+                    if(databaseConnection.getCategoryById(categoryId) != null){
+                        ArrayList<Product> newProducts = new ArrayList<>();
+                        newProducts = chooseProducts(categoryId);
+                        if(newProducts.size() > 0){
+                            products.addAll(newProducts);
+                        }
+                    }
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+
+        }while(categoryId != -1);
+
+        if(products.size() == 0){
+            System.out.println("You did not order any product");
+        }
+        else {
+            System.out.println("Enter your adress: ");
+            scanner.nextLine();
+            String adress = scanner.nextLine().toString();
+            float totalPrice = 0;
+            for(Product product : products){
+                totalPrice += product.getPrice();
+            }
+            Order order = new Order(clientId,products,totalPrice,adress, LocalDate.now());
+            try {
+                createObjects.addOrder(order);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+
+        }
+
+    }
+
+    public ArrayList<Product> chooseProducts(int categoryId) throws SQLException {
+        ArrayList<Product> productsFromThisCategory = new ArrayList<>();
+        productsFromThisCategory = databaseConnection.getAllProductsByCategoryId(categoryId);
+        ArrayList<Product> orderedProducts = new ArrayList<>();
+        displayObjects.displayProducts(productsFromThisCategory);
+        int productId;
+        do{
+            System.out.print("Enter the id of the product or -1 to exit ");
+            productId = scanner.nextInt();
+            if(productId == -1){
+                System.out.println("Done");
+            }
+            else {
+                Product newProduct = databaseConnection.getProductById(productId);
+                orderedProducts.add(newProduct);
+            }
+
+        }while(productId != -1);
+
+        return orderedProducts;
+    }
+
 }

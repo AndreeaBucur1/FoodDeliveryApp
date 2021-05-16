@@ -1,6 +1,11 @@
-C:\Users\andre\Desktop\FoodDeliveryApp\src\main\java\Category.java
-C:\Users\andre\Desktop\FoodDeliveryApp\src\main\java\Product.java
+C:\Users\andre\Desktop\FoodDeliveryApp\src\main\java\Classes\Main.java
+C:\Users\andre\Desktop\FoodDeliveryApp\src\main\java\Classes\Order.java
+C:\Users\andre\Desktop\FoodDeliveryApp\src\main\java\ServiceClasses\DisplayObjects.java
+C:\Users\andre\Desktop\FoodDeliveryApp\src\main\java\ServiceClasses\DeleteObjects.java
+C:\Users\andre\Desktop\FoodDeliveryApp\src\main\java\Classes\Account.java
+C:\Users\andre\Desktop\FoodDeliveryApp\src\main\java\ServiceClasses\ManagerServices.java
+C:\Users\andre\Desktop\FoodDeliveryApp\src\main\java\ServiceClasses\CreateObjects.java
 C:\Users\andre\Desktop\FoodDeliveryApp\src\main\java\Database\DatabaseConnection.java
-C:\Users\andre\Desktop\FoodDeliveryApp\src\main\java\Main.java
-C:\Users\andre\Desktop\FoodDeliveryApp\src\main\java\Account.java
-C:\Users\andre\Desktop\FoodDeliveryApp\src\main\java\Order.java
+C:\Users\andre\Desktop\FoodDeliveryApp\src\main\java\Classes\Category.java
+C:\Users\andre\Desktop\FoodDeliveryApp\src\main\java\Classes\Product.java
+C:\Users\andre\Desktop\FoodDeliveryApp\src\main\java\ServiceClasses\ClientServices.java
