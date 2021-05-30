@@ -47,6 +47,8 @@ public class Product {
         this.description = description;
     }
 
+
+
     public Product(int productId, int categoryId, String productName, float price, String description) {
         this.productId = productId;
         this.categoryId = categoryId;

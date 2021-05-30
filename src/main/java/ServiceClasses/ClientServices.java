@@ -1,6 +1,8 @@
 package ServiceClasses;
 
-import Classes.*;
+import Classes.Account;
+import Classes.Order;
+import Classes.Product;
 import Database.DatabaseConnection;
 
 import java.sql.Connection;
@@ -8,10 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.Stack;
 
 public class ClientServices {
 
@@ -113,10 +113,7 @@ public class ClientServices {
             System.out.println("Enter your adress: ");
             scanner.nextLine();
             String adress = scanner.nextLine().toString();
-            float totalPrice = 0;
-            for(Product product : products){
-                totalPrice += product.getPrice();
-            }
+            float totalPrice = orderPrice(products);
             Order order = new Order(clientId,products,totalPrice,adress, LocalDate.now());
             try {
                 createObjects.addOrder(order);
@@ -126,6 +123,14 @@ public class ClientServices {
 
         }
 
+    }
+
+    public float orderPrice(ArrayList<Product> products){
+        float totalPrice = 0;
+        for(Product product : products){
+            totalPrice += product.getPrice();
+        }
+        return totalPrice;
     }
 
     public ArrayList<Product> chooseProducts(int categoryId) throws SQLException {
