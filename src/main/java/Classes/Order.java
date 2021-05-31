@@ -8,30 +8,30 @@ public class Order {
     private int clientId;
     private ArrayList<Product> products;
     private float totalPrice;
-    private String adress;
+    private String address;
     private LocalDate orderDate;
 
-    public Order(int clientId, ArrayList<Product> products, float totalPrice, String adress, LocalDate orderDate) {
+    public Order(int clientId, ArrayList<Product> products, float totalPrice, String address, LocalDate orderDate) {
         this.products = new ArrayList<>();
         this.clientId = clientId;
         this.products = products;
         this.totalPrice = totalPrice;
-        this.adress = adress;
+        this.address = address;
         this.orderDate = orderDate;
     }
 
-    public Order(int clientId, float totalPrice, String adress, LocalDate orderDate) {
+    public Order(int clientId, float totalPrice, String address, LocalDate orderDate) {
         this.clientId = clientId;
         this.totalPrice = totalPrice;
-        this.adress = adress;
+        this.address = address;
         this.orderDate = orderDate;
     }
 
-    public Order(int orderId, int clientId, float totalPrice, String adress, LocalDate orderDate) {
+    public Order(int orderId, int clientId, float totalPrice, String address, LocalDate orderDate) {
         this.orderId = orderId;
         this.clientId = clientId;
         this.totalPrice = totalPrice;
-        this.adress = adress;
+        this.address = address;
         this.orderDate = orderDate;
     }
 
@@ -42,7 +42,7 @@ public class Order {
                 ", clientId=" + clientId +
                 ", products=" + products +
                 ", totalPrice=" + totalPrice +
-                ", adress='" + adress + '\'' +
+                ", adress='" + address + '\'' +
                 ", orderDate=" + orderDate +
                 '}';
     }
@@ -79,12 +79,12 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public LocalDate getOrderDate() {

@@ -46,8 +46,7 @@ public class ClientServices {
 
     }
 
-    public void clientServices(Account account){
-
+    public void clientServices(Account account) throws SQLException {
 
         int option;
         do{
@@ -72,13 +71,10 @@ public class ClientServices {
             else if(option == 2){
                 placeOrder(account.getAccountId());
             }
-
-            
-
         }while (option!=5);
     }
 
-    public void placeOrder(int clientId){
+    public void placeOrder(int clientId) throws SQLException {
         System.out.println("Choose a category: ");
         displayObjects.displayCategories();
         ArrayList<Product> products = new ArrayList<>();
@@ -110,20 +106,26 @@ public class ClientServices {
             System.out.println("You did not order any product");
         }
         else {
-            System.out.println("Enter your adress: ");
-            scanner.nextLine();
-            String adress = scanner.nextLine().toString();
-            float totalPrice = 0;
+            Cart cart = databaseConnection.getCartByClientId(clientId);
+            boolean isNew = false;
+            if(cart == null) {
+                cart = new Cart(clientId, 0);
+                isNew = true;
+            }
+
+            cart.addProducts(products);
+            double totalPrice = 0;
             for(Product product : products){
                 totalPrice += product.getPrice();
             }
-            Order order = new Order(clientId,products,totalPrice,adress, LocalDate.now());
-            try {
-                createObjects.addOrder(order);
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            cart.setTotalPrice(totalPrice);
+            if(isNew)
+                createObjects.addCart(cart);
+            else
+                updateObjects.updateCart(cart);
 
+            System.out.println("Place the order");
+            placeOrder(cart);
         }
 
     }
@@ -148,6 +150,23 @@ public class ClientServices {
         }while(productId != -1);
 
         return orderedProducts;
+    }
+    public void placeOrder ( Cart)
+    {
+        System.out.println("Enter your adress: ");
+        scanner.nextLine();
+        String address = scanner.nextLine().toString();
+        float totalPrice = 0;
+        for(Product product : products){
+            totalPrice += product.getPrice();
+        }
+        Order order = new Order(clientId,products,totalPrice,address, LocalDate.now());
+        try {
+            createObjects.addOrder(order);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
     }
 
 }

@@ -81,12 +81,26 @@ public class CreateObjects {
         }
     }
 
-    public void addOrder(Order order) throws SQLException {
+    public void add(Order order) throws SQLException {
         PreparedStatement preparedStatement = null;
-        preparedStatement = connection.prepareStatement("insert into orders (clientId,totalPrice,adress,orderDate) values (?,?,?,?)");
+        preparedStatement = connection.prepareStatement("insert into orders (clientId,totalPrice,address,orderDate) values (?,?,?,?)");
         preparedStatement.setInt(1,order.getClientId());
         preparedStatement.setFloat(2,order.getTotalPrice());
-        preparedStatement.setString(3,order.getAdress());
+        preparedStatement.setString(3,order.getAddress());
+        preparedStatement.setDate(4, Date.valueOf(order.getOrderDate()));
+        preparedStatement.execute();
+
+
+        System.out.println(order.getProducts());
+        addProductsToOrder(order);
+
+    }
+    public void addOrder(Order order) throws SQLException {
+        PreparedStatement preparedStatement = null;
+        preparedStatement = connection.prepareStatement("insert into orders (clientId,totalPrice,address,orderDate) values (?,?,?,?)");
+        preparedStatement.setInt(1,order.getClientId());
+        preparedStatement.setFloat(2,order.getTotalPrice());
+        preparedStatement.setString(3,order.getAddress());
         preparedStatement.setDate(4, Date.valueOf(order.getOrderDate()));
         preparedStatement.execute();
 

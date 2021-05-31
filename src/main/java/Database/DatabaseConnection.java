@@ -14,7 +14,7 @@ public class DatabaseConnection {
             return connection;
         } else {
             try {
-                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/FoodDeliveryApp", "root", "root");
+                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/FoodDeliveryApp", "root", "Activitate14");
                 return connection;
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -93,6 +93,28 @@ public class DatabaseConnection {
         return orders;
     }
 
+    public ArrayList<Cart> getAllCarts() throws SQLException {
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("select * from cart");
+        ArrayList<Cart> carts = new ArrayList<>();
+        while(resultSet.next()){
+            Cart cart = new Cart(resultSet.getInt(1),resultSet.getInt(2),resultSet.getDouble(3));
+            carts.add(cart);
+        }
+        return carts;
+    }
 
+    public Cart getCartByClientId (int id) throws SQLException {
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("select * from cart where cleintId = " + id);
+        if(resultSet.next()){
+            Cart cart = new Cart(resultSet.getInt(1),resultSet.getInt(2),resultSet.getDouble(3));
+            return cart;
+        }
+        else{
+            return null;
+        }
+
+    }
 
 }
