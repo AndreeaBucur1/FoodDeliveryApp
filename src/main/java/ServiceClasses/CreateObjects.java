@@ -11,6 +11,7 @@ public class CreateObjects {
     DatabaseConnection databaseConnection = new DatabaseConnection();
     Connection connection = databaseConnection.Connection();
     Scanner scanner = new Scanner(System.in);
+    DeleteObjects deleteObjects = new DeleteObjects();
 
     public void createAccount() throws SQLException {
         System.out.print("Enter your email adress: ");
@@ -93,7 +94,11 @@ public class CreateObjects {
     }
 
     public void addProductsToCart(Cart cart) throws SQLException {
-        PreparedStatement preparedStatement;
+        PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM carthasproducts WHERE cartId = ?;");
+        preparedStatement.setInt(1, cart.getCartId());
+        preparedStatement.execute();
+
+        preparedStatement = null;
         ArrayList<Cart> carts = databaseConnection.getAllCarts();
         carts.sort(Comparator.comparing(Cart::getCartId));
         int lastId = carts.get(carts.size() - 1).getCartId();
@@ -123,7 +128,7 @@ public class CreateObjects {
         PreparedStatement preparedStatement = null;
         preparedStatement = connection.prepareStatement("insert into orders (clientId,totalPrice,address,orderDate) values (?,?,?,?)");
         preparedStatement.setInt(1,order.getClientId());
-        preparedStatement.setFloat(2,order.getTotalPrice());
+        preparedStatement.setDouble(2,order.getTotalPrice());
         preparedStatement.setString(3,order.getAddress());
         preparedStatement.setDate(4, Date.valueOf(order.getOrderDate()));
         preparedStatement.execute();

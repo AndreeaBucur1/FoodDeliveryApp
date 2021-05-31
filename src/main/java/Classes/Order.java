@@ -7,11 +7,11 @@ public class Order {
     private int orderId;
     private int clientId;
     private ArrayList<Product> products;
-    private float totalPrice;
+    private double totalPrice;
     private String address;
     private LocalDate orderDate;
 
-    public Order(int clientId, ArrayList<Product> products, float totalPrice, String address, LocalDate orderDate) {
+    public Order(int clientId, ArrayList<Product> products, double totalPrice, String address, LocalDate orderDate) {
         this.products = new ArrayList<>();
         this.clientId = clientId;
         this.products = products;
@@ -20,14 +20,14 @@ public class Order {
         this.orderDate = orderDate;
     }
 
-    public Order(int clientId, float totalPrice, String address, LocalDate orderDate) {
+    public Order(int clientId, double totalPrice, String address, LocalDate orderDate) {
         this.clientId = clientId;
         this.totalPrice = totalPrice;
         this.address = address;
         this.orderDate = orderDate;
     }
 
-    public Order(int orderId, int clientId, float totalPrice, String address, LocalDate orderDate) {
+    public Order(int orderId, int clientId, double totalPrice, String address, LocalDate orderDate) {
         this.orderId = orderId;
         this.clientId = clientId;
         this.totalPrice = totalPrice;
@@ -71,11 +71,11 @@ public class Order {
         this.products = products;
     }
 
-    public float getTotalPrice() {
+    public double getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(float totalPrice) {
+    public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
     }
 

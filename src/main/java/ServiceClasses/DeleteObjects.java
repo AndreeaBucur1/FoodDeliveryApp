@@ -1,5 +1,6 @@
 package ServiceClasses;
 
+import Classes.Cart;
 import Database.DatabaseConnection;
 
 import java.sql.Connection;
@@ -15,5 +16,10 @@ public class DeleteObjects {
         PreparedStatement preparedStatement = connection.prepareStatement("delete from account where accountId = " + accountId);
         preparedStatement.execute();
 
+    }
+    public void deleteCart(Cart cart) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM cart WHERE cartId = ?;");
+        preparedStatement.setInt(1, cart.getCartId());
+        preparedStatement.execute();
     }
 }

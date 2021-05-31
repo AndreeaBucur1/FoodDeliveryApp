@@ -19,6 +19,7 @@ public class Cart {
     public Cart(int clientId, double totalPrice) {
         this.clientId = clientId;
         this.totalPrice = totalPrice;
+        this.products =new ArrayList<Product>();
     }
 
     public Cart(int cartId, int clientId, double totalPrice) {

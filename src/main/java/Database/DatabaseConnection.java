@@ -14,7 +14,7 @@ public class DatabaseConnection {
             return connection;
         } else {
             try {
-                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/FoodDeliveryApp", "root", "Activitate14");
+                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/FoodDeliveryApp", "root", "***");
                 return connection;
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -106,7 +106,35 @@ public class DatabaseConnection {
 
     public Cart getCartByClientId (int id) throws SQLException {
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("select * from cart where cleintId = " + id);
+        ResultSet resultSet = statement.executeQuery("select * from cart where clientId = " + id);
+        double totalPrice = 0;
+        if(resultSet.next()){
+            Cart cart = new Cart(resultSet.getInt(1),resultSet.getInt(2),resultSet.getDouble(3));
+            resultSet = statement.executeQuery("select productId, cantity from carthasproducts where cartId = " + cart.getCartId());
+            ArrayList<Product> products = new ArrayList<Product>();
+
+            while (resultSet.next())
+            {
+                Product product = getProductById(resultSet.getInt(1));
+                totalPrice += product.getPrice();
+                int cantity = resultSet.getInt(2);
+                while(cantity>0) {
+                    products.add(product);
+                    cantity--;
+                }
+            }
+            cart.setProducts(products);
+            cart.setTotalPrice(totalPrice);
+            return cart;
+        }
+        else{
+            return null;
+        }
+
+    }
+    public Cart getCartById (int id) throws SQLException {
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("select * from cart where cartId = " + id);
         if(resultSet.next()){
             Cart cart = new Cart(resultSet.getInt(1),resultSet.getInt(2),resultSet.getDouble(3));
             return cart;

@@ -20,7 +20,8 @@ public class ClientServices {
     Scanner scanner = new Scanner(System.in);
     DisplayObjects displayObjects = new DisplayObjects();
     CreateObjects createObjects = new CreateObjects();
-
+    UpdateObjects updateObjects = new UpdateObjects();
+    DeleteObjects deleteObjects = new DeleteObjects();
 
     public Account connectToAccount() throws SQLException {
         System.out.print("Enter email: ");
@@ -112,20 +113,21 @@ public class ClientServices {
                 cart = new Cart(clientId, 0);
                 isNew = true;
             }
-
             cart.addProducts(products);
             double totalPrice = 0;
             for(Product product : products){
                 totalPrice += product.getPrice();
             }
-            cart.setTotalPrice(totalPrice);
+            cart.setTotalPrice(cart.getTotalPrice() + totalPrice);
             if(isNew)
                 createObjects.addCart(cart);
             else
                 updateObjects.updateCart(cart);
 
-            System.out.println("Place the order");
-            placeOrder(cart);
+            System.out.println("Place the order. Continue? (1.Yes 2.No)");
+            int option = scanner.nextInt();
+            if(option == 1)
+                placeOrder(cart);
         }
 
     }
@@ -151,22 +153,19 @@ public class ClientServices {
 
         return orderedProducts;
     }
-    public void placeOrder ( Cart)
-    {
+    public void placeOrder ( Cart cart) throws SQLException {
         System.out.println("Enter your adress: ");
         scanner.nextLine();
         String address = scanner.nextLine().toString();
-        float totalPrice = 0;
-        for(Product product : products){
-            totalPrice += product.getPrice();
-        }
-        Order order = new Order(clientId,products,totalPrice,address, LocalDate.now());
+
+        Order order = new Order(cart.getClientId(), cart.getProducts(), cart.getTotalPrice(),address, LocalDate.now());
         try {
             createObjects.addOrder(order);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
 
+        deleteObjects.deleteCart(cart);
     }
 
 }
