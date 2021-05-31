@@ -37,14 +37,16 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Order{" +
-                "orderId=" + orderId +
-                ", clientId=" + clientId +
-                ", products=" + products +
-                ", totalPrice=" + totalPrice +
-                ", adress='" + address + '\'' +
-                ", orderDate=" + orderDate +
-                '}';
+        String show =
+                "ID: " + orderId + '\n' +
+                "Client id: " + clientId + '\n' +
+                "Products:\n ";
+        for(Product p : products)
+            show += p.toString() + '\n';
+        show += "TotalPrice:" + totalPrice + '\n' +
+                "Address: " + address + '\n' +
+                "Order date: " + orderDate + '\n';
+        return show;
     }
 
     public int getOrderId() {

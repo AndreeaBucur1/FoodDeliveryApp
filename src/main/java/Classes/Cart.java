@@ -78,9 +78,13 @@ public class Cart {
 
     @Override
     public String toString() {
-        return  "cartId=" + cartId +
-                ", clientId=" + clientId +
-                ", products=" + products +
-                ", totalPrice=" + totalPrice;
+        String show =   "ID" + cartId + '\n' +
+                "Client id: " + clientId + '\n' +
+                "Products:\n ";
+
+        for(Product p : products)
+               show += p.toString() + '\n';
+        show += "totalPrice:" + totalPrice + '\n';
+        return show;
     }
 }

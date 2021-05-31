@@ -60,7 +60,18 @@ public class ClientServices {
             System.out.println("Option 5: Change password");
             System.out.println("Option 6: Exit");
             option = scanner.nextInt();
-            if(option == 4){
+            if(option == 1)
+            {
+                ArrayList<Product> products = databaseConnection.getAllProducts();
+                for(Product p : products)
+                    System.out.println(p);
+            }
+            if(option == 3) {
+                ArrayList<Order> orders = databaseConnection.getAllOrders();
+                for (Order o : orders)
+                    System.out.println(o);
+            }
+                if(option == 4){
                 DeleteObjects deleteObjects = new DeleteObjects();
                 try {
                     deleteObjects.deleteAccount(account.getAccountId());
