@@ -81,20 +81,44 @@ public class CreateObjects {
         }
     }
 
-    public void add(Order order) throws SQLException {
+    public void addCart(Cart cart) throws SQLException {
         PreparedStatement preparedStatement = null;
-        preparedStatement = connection.prepareStatement("insert into orders (clientId,totalPrice,address,orderDate) values (?,?,?,?)");
-        preparedStatement.setInt(1,order.getClientId());
-        preparedStatement.setFloat(2,order.getTotalPrice());
-        preparedStatement.setString(3,order.getAddress());
-        preparedStatement.setDate(4, Date.valueOf(order.getOrderDate()));
+        preparedStatement = connection.prepareStatement("insert into cart (clientId,totalPrice) values (?,?)");
+        preparedStatement.setInt(1,cart.getClientId());
+        preparedStatement.setDouble(2,cart.getTotalPrice());
         preparedStatement.execute();
 
-
-        System.out.println(order.getProducts());
-        addProductsToOrder(order);
+        addProductsToCart(cart);
 
     }
+
+    public void addProductsToCart(Cart cart) throws SQLException {
+        PreparedStatement preparedStatement;
+        ArrayList<Cart> carts = databaseConnection.getAllCarts();
+        carts.sort(Comparator.comparing(Cart::getCartId));
+        int lastId = carts.get(carts.size() - 1).getCartId();
+        cart.setCartId(lastId);
+        ArrayList<Integer> checked = new ArrayList<>();
+        for (Product product : cart.getProducts()) {
+            preparedStatement = null;
+            if(checked.contains(product.getProductId()) == false) {
+                int quantity = 0;
+                for(Product product1 : cart.getProducts()){
+                    if(product1.getProductId() == product.getProductId()){
+                        quantity++;
+                    }
+                }
+                checked.add(product.getProductId());
+
+                preparedStatement = connection.prepareStatement("insert into carthasproducts values (?,?,?)");
+                preparedStatement.setInt(1, cart.getCartId());
+                preparedStatement.setInt(2, product.getProductId());
+                preparedStatement.setInt(3, quantity);
+                preparedStatement.execute();
+            }
+        }
+    }
+
     public void addOrder(Order order) throws SQLException {
         PreparedStatement preparedStatement = null;
         preparedStatement = connection.prepareStatement("insert into orders (clientId,totalPrice,address,orderDate) values (?,?,?,?)");
