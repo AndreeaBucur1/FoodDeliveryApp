@@ -40,7 +40,7 @@ public class Order {
         String show =
                 "ID: " + orderId + '\n' +
                 "Client id: " + clientId + '\n' +
-                "Products:\n ";
+                "Products:\n";
         for(Product p : products)
             show += p.toString() + '\n';
         show += "TotalPrice:" + totalPrice + '\n' +

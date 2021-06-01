@@ -103,31 +103,31 @@ public class DatabaseConnection {
         }
         return orders;
     }
-    public Order getOrdersByClientId (int id) throws SQLException {
+
+    public ArrayList<Order> getOrdersByClientId (int id) throws SQLException {
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("select * from orders where clientId = " + id);
-        if(resultSet.next()){
-            Order order = new Order(resultSet.getInt(1),resultSet.getInt(2),resultSet.getDouble(3), resultSet.getString(4), resultSet.getDate(5));
-            resultSet = statement.executeQuery("select productId, cantity from carthasproducts where cartId = " + cart.getCartId());
+        ArrayList<Order> orders = new ArrayList<Order>();
+        while (resultSet.next()) {
+            Order order = new Order(resultSet.getInt(1), resultSet.getInt(2), resultSet.getDouble(3), resultSet.getString(4), resultSet.getDate(5).toLocalDate());
+            orders.add(order);
+        }
+        for (Order o : orders) {
+            resultSet = statement.executeQuery("select productId, cantity from orderhasproducts where orderId = " + o.getOrderId());
             ArrayList<Product> products = new ArrayList<Product>();
 
-            while (resultSet.next())
-            {
+            while (resultSet.next()) {
                 Product product = getProductById(resultSet.getInt(1));
-                totalPrice += product.getPrice();
                 int cantity = resultSet.getInt(2);
-                while(cantity>0) {
+                while (cantity > 0) {
                     products.add(product);
                     cantity--;
                 }
             }
-            cart.setProducts(products);
-            cart.setTotalPrice(totalPrice);
-            return cart;
+            o.setProducts(products);
+
         }
-        else{
-            return null;
-        }
+        return orders;
 
     }
 
@@ -138,6 +138,7 @@ public class DatabaseConnection {
         while(resultSet.next()){
             Cart cart = new Cart(resultSet.getInt(1),resultSet.getInt(2),resultSet.getDouble(3));
             carts.add(cart);
+
         }
         return carts;
     }

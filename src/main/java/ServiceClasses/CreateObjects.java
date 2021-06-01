@@ -143,7 +143,6 @@ public class CreateObjects {
         PreparedStatement preparedStatement;
         ArrayList<Order> orders = databaseConnection.getAllOrders();
         orders.sort(Comparator.comparing(Order::getOrderId));
-        System.out.println(orders);
         int lastId = orders.get(orders.size() - 1).getOrderId();
         order.setOrderId(lastId);
         ArrayList<Integer> checked = new ArrayList<>();

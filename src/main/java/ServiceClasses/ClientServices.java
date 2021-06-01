@@ -67,7 +67,7 @@ public class ClientServices {
                     System.out.println(p);
             }
             if(option == 3) {
-                ArrayList<Order> orders = databaseConnection.getAllOrders();
+                ArrayList<Order> orders = databaseConnection.getOrdersByClientId(account.getAccountId());
                 for (Order o : orders)
                     System.out.println(o);
             }
