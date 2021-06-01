@@ -19,8 +19,14 @@ public class UpdateObjects {
 
     public void updateCart(Cart cart) throws SQLException {
         PreparedStatement preparedStatement = null;
-        preparedStatement = connection.prepareStatement("update cart set totalPrice =" + cart.getTotalPrice() + "where cartId = " + cart.getCartId());
+        preparedStatement = connection.prepareStatement("update cart set totalPrice = " + cart.getTotalPrice() + " where cartId = " + cart.getCartId());
         preparedStatement.execute();
         createObjects.addProductsToCart(cart);
+    }
+    public void updatePassword( Integer accountId, String newPassword) throws SQLException {
+        PreparedStatement preparedStatement = null;
+        preparedStatement = connection.prepareStatement("update account set password = " + newPassword + " where accountId = " + accountId);
+        preparedStatement.execute();
+        System.out.println("Done!");
     }
 }

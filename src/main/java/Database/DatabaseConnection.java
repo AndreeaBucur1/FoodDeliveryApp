@@ -131,6 +131,13 @@ public class DatabaseConnection {
 
     }
 
+    public Integer getNumberOfOrders(int clientId) throws SQLException {
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("select count(orderId) from orders where clientId = " + clientId);
+        Integer numberOfOrders = resultSet.getInt(1);
+        return numberOfOrders;
+    }
+
     public ArrayList<Cart> getAllCarts() throws SQLException {
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("select * from cart");

@@ -83,7 +83,13 @@ public class ClientServices {
             else if(option == 2){
                 placeOrder(account.getAccountId());
             }
-        }while (option!=5);
+            else if (option == 5)
+                {
+                    System.out.println("Enter your new password");
+                    String newPassword = scanner.next();
+                    updateObjects.updatePassword(account.getAccountId(), newPassword);
+                }
+        }while (option!=6);
     }
 
     public void placeOrder(int clientId) throws SQLException {
@@ -129,6 +135,10 @@ public class ClientServices {
             for(Product product : products){
                 totalPrice += product.getPrice();
             }
+            int numberOfOrders = databaseConnection.getNumberOfOrders(clientId);
+            if(numberOfOrders > 3)
+                totalPrice = totalPrice - numberOfOrders / 100 * totalPrice;
+
             cart.setTotalPrice(cart.getTotalPrice() + totalPrice);
             if(isNew)
                 createObjects.addCart(cart);
