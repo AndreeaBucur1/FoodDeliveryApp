@@ -13,11 +13,9 @@ public class Account {
 
     @Override
     public String toString() {
-        return "Account{" +
-                "accountId=" + accountId +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+        return "ID: " + accountId + '\n' +
+                "Email: " + email + '\n' +
+                "Password: " + password + '\n';
     }
 
     public int getAccountId() {

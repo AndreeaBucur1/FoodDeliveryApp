@@ -20,7 +20,8 @@ public class ClientServices {
     Scanner scanner = new Scanner(System.in);
     DisplayObjects displayObjects = new DisplayObjects();
     CreateObjects createObjects = new CreateObjects();
-
+    UpdateObjects updateObjects = new UpdateObjects();
+    DeleteObjects deleteObjects = new DeleteObjects();
 
     public Account connectToAccount() throws SQLException {
         System.out.print("Enter email: ");
@@ -46,8 +47,7 @@ public class ClientServices {
 
     }
 
-    public void clientServices(Account account){
-
+    public void clientServices(Account account) throws SQLException {
 
         int option;
         do{
@@ -60,7 +60,18 @@ public class ClientServices {
             System.out.println("Option 5: Change password");
             System.out.println("Option 6: Exit");
             option = scanner.nextInt();
-            if(option == 4){
+            if(option == 1)
+            {
+                ArrayList<Product> products = databaseConnection.getAllProducts();
+                for(Product p : products)
+                    System.out.println(p);
+            }
+            if(option == 3) {
+                ArrayList<Order> orders = databaseConnection.getOrdersByClientId(account.getAccountId());
+                for (Order o : orders)
+                    System.out.println(o);
+            }
+                if(option == 4){
                 DeleteObjects deleteObjects = new DeleteObjects();
                 try {
                     deleteObjects.deleteAccount(account.getAccountId());
@@ -72,13 +83,16 @@ public class ClientServices {
             else if(option == 2){
                 placeOrder(account.getAccountId());
             }
-
-            
-
-        }while (option!=5);
+            else if (option == 5)
+                {
+                    System.out.println("Enter your new password");
+                    String newPassword = scanner.next();
+                    updateObjects.updatePassword(account.getAccountId(), newPassword);
+                }
+        }while (option!=6);
     }
 
-    public void placeOrder(int clientId){
+    public void placeOrder(int clientId) throws SQLException {
         System.out.println("Choose a category: ");
         displayObjects.displayCategories();
         ArrayList<Product> products = new ArrayList<>();
@@ -110,20 +124,31 @@ public class ClientServices {
             System.out.println("You did not order any product");
         }
         else {
-            System.out.println("Enter your adress: ");
-            scanner.nextLine();
-            String adress = scanner.nextLine().toString();
-            float totalPrice = 0;
+            Cart cart = databaseConnection.getCartByClientId(clientId);
+            boolean isNew = false;
+            if(cart == null) {
+                cart = new Cart(clientId, 0);
+                isNew = true;
+            }
+            cart.addProducts(products);
+            double totalPrice = 0;
             for(Product product : products){
                 totalPrice += product.getPrice();
             }
-            Order order = new Order(clientId,products,totalPrice,adress, LocalDate.now());
-            try {
-                createObjects.addOrder(order);
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            int numberOfOrders = databaseConnection.getNumberOfOrders(clientId);
+            if(numberOfOrders > 3)
+                totalPrice = totalPrice - numberOfOrders / 100 * totalPrice;
 
+            cart.setTotalPrice(cart.getTotalPrice() + totalPrice);
+            if(isNew)
+                createObjects.addCart(cart);
+            else
+                updateObjects.updateCart(cart);
+
+            System.out.println("Place the order. Continue? (1.Yes 2.No)");
+            int option = scanner.nextInt();
+            if(option == 1)
+                placeOrder(cart);
         }
 
     }
@@ -148,6 +173,20 @@ public class ClientServices {
         }while(productId != -1);
 
         return orderedProducts;
+    }
+    public void placeOrder ( Cart cart) throws SQLException {
+        System.out.println("Enter your adress: ");
+        scanner.nextLine();
+        String address = scanner.nextLine().toString();
+
+        Order order = new Order(cart.getClientId(), cart.getProducts(), cart.getTotalPrice(),address, LocalDate.now());
+        try {
+            createObjects.addOrder(order);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        deleteObjects.deleteCart(cart);
     }
 
 }

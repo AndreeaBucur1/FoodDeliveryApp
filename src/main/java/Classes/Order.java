@@ -7,44 +7,46 @@ public class Order {
     private int orderId;
     private int clientId;
     private ArrayList<Product> products;
-    private float totalPrice;
-    private String adress;
+    private double totalPrice;
+    private String address;
     private LocalDate orderDate;
 
-    public Order(int clientId, ArrayList<Product> products, float totalPrice, String adress, LocalDate orderDate) {
+    public Order(int clientId, ArrayList<Product> products, double totalPrice, String address, LocalDate orderDate) {
         this.products = new ArrayList<>();
         this.clientId = clientId;
         this.products = products;
         this.totalPrice = totalPrice;
-        this.adress = adress;
+        this.address = address;
         this.orderDate = orderDate;
     }
 
-    public Order(int clientId, float totalPrice, String adress, LocalDate orderDate) {
+    public Order(int clientId, double totalPrice, String address, LocalDate orderDate) {
         this.clientId = clientId;
         this.totalPrice = totalPrice;
-        this.adress = adress;
+        this.address = address;
         this.orderDate = orderDate;
     }
 
-    public Order(int orderId, int clientId, float totalPrice, String adress, LocalDate orderDate) {
+    public Order(int orderId, int clientId, double totalPrice, String address, LocalDate orderDate) {
         this.orderId = orderId;
         this.clientId = clientId;
         this.totalPrice = totalPrice;
-        this.adress = adress;
+        this.address = address;
         this.orderDate = orderDate;
     }
 
     @Override
     public String toString() {
-        return "Order{" +
-                "orderId=" + orderId +
-                ", clientId=" + clientId +
-                ", products=" + products +
-                ", totalPrice=" + totalPrice +
-                ", adress='" + adress + '\'' +
-                ", orderDate=" + orderDate +
-                '}';
+        String show =
+                "ID: " + orderId + '\n' +
+                "Client id: " + clientId + '\n' +
+                "Products:\n";
+        for(Product p : products)
+            show += p.toString() + '\n';
+        show += "TotalPrice:" + totalPrice + '\n' +
+                "Address: " + address + '\n' +
+                "Order date: " + orderDate + '\n';
+        return show;
     }
 
     public int getOrderId() {
@@ -71,20 +73,20 @@ public class Order {
         this.products = products;
     }
 
-    public float getTotalPrice() {
+    public double getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(float totalPrice) {
+    public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public LocalDate getOrderDate() {

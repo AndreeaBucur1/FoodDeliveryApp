@@ -14,7 +14,7 @@ public class DatabaseConnection {
             return connection;
         } else {
             try {
-                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/FoodDeliveryApp", "root", "root");
+                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/FoodDeliveryApp", "root", "**");
                 return connection;
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -45,6 +45,17 @@ public class DatabaseConnection {
             categories.add(category);
         }
     return categories;
+    }
+
+    public ArrayList<Product> getAllProducts() throws SQLException{
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("select * from product");
+        ArrayList<Product> products = new ArrayList<>();
+        while (resultSet.next()){
+            Product product = new Product(resultSet.getInt(1),resultSet.getInt(2),resultSet.getString(3),resultSet.getFloat(4),resultSet.getString(5));
+            products.add(product);
+        }
+        return products;
     }
 
     public ArrayList<Product> getAllProductsByCategoryId(int categoryId) throws SQLException{
@@ -93,6 +104,91 @@ public class DatabaseConnection {
         return orders;
     }
 
+    public ArrayList<Order> getOrdersByClientId (int id) throws SQLException {
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("select * from orders where clientId = " + id);
+        ArrayList<Order> orders = new ArrayList<Order>();
+        while (resultSet.next()) {
+            Order order = new Order(resultSet.getInt(1), resultSet.getInt(2), resultSet.getDouble(3), resultSet.getString(4), resultSet.getDate(5).toLocalDate());
+            orders.add(order);
+        }
+        for (Order o : orders) {
+            resultSet = statement.executeQuery("select productId, cantity from orderhasproducts where orderId = " + o.getOrderId());
+            ArrayList<Product> products = new ArrayList<Product>();
 
+            while (resultSet.next()) {
+                Product product = getProductById(resultSet.getInt(1));
+                int cantity = resultSet.getInt(2);
+                while (cantity > 0) {
+                    products.add(product);
+                    cantity--;
+                }
+            }
+            o.setProducts(products);
+
+        }
+        return orders;
+
+    }
+
+    public Integer getNumberOfOrders(int clientId) throws SQLException {
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("select count(orderId) from orders where clientId = " + clientId);
+        Integer numberOfOrders = resultSet.getInt(1);
+        return numberOfOrders;
+    }
+
+    public ArrayList<Cart> getAllCarts() throws SQLException {
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("select * from cart");
+        ArrayList<Cart> carts = new ArrayList<>();
+        while(resultSet.next()){
+            Cart cart = new Cart(resultSet.getInt(1),resultSet.getInt(2),resultSet.getDouble(3));
+            carts.add(cart);
+
+        }
+        return carts;
+    }
+
+    public Cart getCartByClientId (int id) throws SQLException {
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("select * from cart where clientId = " + id);
+        double totalPrice = 0;
+        if(resultSet.next()){
+            Cart cart = new Cart(resultSet.getInt(1),resultSet.getInt(2),resultSet.getDouble(3));
+            resultSet = statement.executeQuery("select productId, cantity from carthasproducts where cartId = " + cart.getCartId());
+            ArrayList<Product> products = new ArrayList<Product>();
+
+            while (resultSet.next())
+            {
+                Product product = getProductById(resultSet.getInt(1));
+                totalPrice += product.getPrice();
+                int cantity = resultSet.getInt(2);
+                while(cantity>0) {
+                    products.add(product);
+                    cantity--;
+                }
+            }
+            cart.setProducts(products);
+            cart.setTotalPrice(totalPrice);
+            return cart;
+        }
+        else{
+            return null;
+        }
+
+    }
+    public Cart getCartById (int id) throws SQLException {
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("select * from cart where cartId = " + id);
+        if(resultSet.next()){
+            Cart cart = new Cart(resultSet.getInt(1),resultSet.getInt(2),resultSet.getDouble(3));
+            return cart;
+        }
+        else{
+            return null;
+        }
+
+    }
 
 }
