@@ -14,7 +14,7 @@ public class DatabaseConnection {
             return connection;
         } else {
             try {
-                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/FoodDeliveryApp", "root", "**");
+                connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/fooddeliveryapp", "root", "Ciresica90!");
                 return connection;
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -44,7 +44,7 @@ public class DatabaseConnection {
             Category category = new Category(resultSet.getInt("categoryId"),resultSet.getString("categoryName"));
             categories.add(category);
         }
-    return categories;
+        return categories;
     }
 
     public ArrayList<Product> getAllProducts() throws SQLException{
