@@ -170,9 +170,4 @@ public class CreateObjects {
         }
 
     }
-
-//    public int orderPrice(ArrayList<Product> products){
-//
-//    }
-
 }
