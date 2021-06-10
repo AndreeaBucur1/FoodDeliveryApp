@@ -14,7 +14,7 @@ public class DatabaseConnection {
             return connection;
         } else {
             try {
-                connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/fooddeliveryapp", "root", "Ciresica90!");
+                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/fooddeliveryapp", "root", "root");
                 return connection;
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
