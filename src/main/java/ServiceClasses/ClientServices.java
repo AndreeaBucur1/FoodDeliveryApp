@@ -6,10 +6,7 @@ import Classes.Order;
 import Classes.Product;
 import Database.DatabaseConnection;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -59,7 +56,8 @@ public class ClientServices {
             System.out.println("Option 3: View all your orders");
             System.out.println("Option 4: Delete your account");
             System.out.println("Option 5: Change password");
-            System.out.println("Option 6: Exit");
+            System.out.println("Option 6: Fill in the employment form");
+            System.out.println("Option 7: Exit");
             option = scanner.nextInt();
             if(option == 1)
             {
@@ -90,7 +88,11 @@ public class ClientServices {
                     String newPassword = scanner.next();
                     updateObjects.updatePassword(account.getAccountId(), newPassword);
                 }
-        }while (option!=6);
+            if (option == 6 )
+                {
+                    fillForm(account.getAccountId());
+                }
+        }while (option!=7);
     }
 
     public void placeOrder(int clientId) throws SQLException {
@@ -206,6 +208,37 @@ public class ClientServices {
         }
 
         deleteObjects.deleteCart(cart);
+    }
+
+    public void fillForm( int clientId) throws SQLException {
+        System.out.println(" First name : ");
+        String nume = scanner.next();
+        System.out.println(" Last name :");
+        String prenume = scanner.next();
+        System.out.println("Age :");
+        int varsta = scanner.nextInt();
+        System.out.println(" Email :");
+        String email = scanner.next();
+        System.out.println(" Last unit graduated :");
+        String graduated = scanner.next();
+        System.out.println(" Do you work elsewhere? (Yes/No)");
+        String occupation = scanner.next();
+
+        String sql = "INSERT INTO form (clientId, nume, prenume, age, email, ultimaUnitateInvatamantAbsolvita, altaOcupatie) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, clientId);
+        statement.setString(2, nume);
+        statement.setString(3, prenume);
+        statement.setInt(4, varsta);
+        statement.setString(5, email);
+        statement.setString(6, graduated);
+        statement.setString(7, occupation);
+
+        int rowsInserted = statement.executeUpdate();
+        if (rowsInserted > 0) {
+            System.out.println(" The form has been completed successfully! ");
+        }
     }
 
 }

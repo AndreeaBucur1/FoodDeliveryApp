@@ -139,6 +139,8 @@ public class CreateObjects {
 
     }
 
+
+
     public void addProductsToOrder(Order order) throws SQLException {
         PreparedStatement preparedStatement;
         ArrayList<Order> orders = databaseConnection.getAllOrders();
@@ -168,9 +170,4 @@ public class CreateObjects {
         }
 
     }
-
-//    public int orderPrice(ArrayList<Product> products){
-//
-//    }
-
 }

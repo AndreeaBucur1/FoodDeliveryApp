@@ -44,7 +44,7 @@ public class DatabaseConnection {
             Category category = new Category(resultSet.getInt("categoryId"),resultSet.getString("categoryName"));
             categories.add(category);
         }
-    return categories;
+        return categories;
     }
 
     public ArrayList<Product> getAllProducts() throws SQLException{
