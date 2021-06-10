@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: OrderTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.553 s - in OrderTest
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.742 s - in OrderTest

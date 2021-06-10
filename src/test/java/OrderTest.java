@@ -16,6 +16,22 @@ public class OrderTest {
         products.add(product);
         products.add(product1);
         ClientServices clientServices = new ClientServices();
-        Assert.assertEquals(55,clientServices.orderPrice(products),DELTA);
+        Assert.assertEquals(55, clientServices.orderPrice(products),DELTA);
     }
+
+    @Test
+    public void discountIsCorrect(){
+        double orderPrice1 = 130;
+        double orderPrice2 = 170;
+        double orderPrice3 = 250;
+        double orderPrice4 = 400;
+        double orderPrice5 = 50;
+        ClientServices clientServices = new ClientServices();
+        Assert.assertEquals(117,clientServices.priceAfterDiscount(orderPrice1),DELTA);
+        Assert.assertEquals(144.5,clientServices.priceAfterDiscount(orderPrice2),DELTA);
+        Assert.assertEquals(200,clientServices.priceAfterDiscount(orderPrice3),DELTA);
+        Assert.assertEquals(300,clientServices.priceAfterDiscount(orderPrice4),DELTA);
+        Assert.assertEquals(50.,clientServices.priceAfterDiscount(orderPrice5),DELTA);
+    }
+
 }

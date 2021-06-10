@@ -1,11 +1,14 @@
+Classes\Cart.class
 Classes\Product.class
-ServiceClasses\CreateObjects.class
 Classes\Account.class
-Database\DatabaseConnection.class
 Classes\Main.class
 ServiceClasses\ClientServices.class
-ServiceClasses\DeleteObjects.class
 ServiceClasses\DisplayObjects.class
 Classes\Order.class
 ServiceClasses\ManagerServices.class
 Classes\Category.class
+ServiceClasses\CreateObjects.class
+Classes\Form.class
+Database\DatabaseConnection.class
+ServiceClasses\DeleteObjects.class
+ServiceClasses\UpdateObjects.class

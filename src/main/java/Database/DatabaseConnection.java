@@ -14,7 +14,11 @@ public class DatabaseConnection {
             return connection;
         } else {
             try {
+<<<<<<< Updated upstream
                 connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/FoodDeliveryApp", "root", "**");
+=======
+                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/fooddeliveryapp", "root", "root");
+>>>>>>> Stashed changes
                 return connection;
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -113,15 +117,15 @@ public class DatabaseConnection {
             orders.add(order);
         }
         for (Order o : orders) {
-            resultSet = statement.executeQuery("select productId, cantity from orderhasproducts where orderId = " + o.getOrderId());
+            resultSet = statement.executeQuery("select productId, quantity from orderhasproducts where orderId = " + o.getOrderId());
             ArrayList<Product> products = new ArrayList<Product>();
 
             while (resultSet.next()) {
                 Product product = getProductById(resultSet.getInt(1));
-                int cantity = resultSet.getInt(2);
-                while (cantity > 0) {
+                int quantity = resultSet.getInt(2);
+                while (quantity > 0) {
                     products.add(product);
-                    cantity--;
+                    quantity--;
                 }
             }
             o.setProducts(products);
@@ -156,17 +160,17 @@ public class DatabaseConnection {
         double totalPrice = 0;
         if(resultSet.next()){
             Cart cart = new Cart(resultSet.getInt(1),resultSet.getInt(2),resultSet.getDouble(3));
-            resultSet = statement.executeQuery("select productId, cantity from carthasproducts where cartId = " + cart.getCartId());
+            resultSet = statement.executeQuery("select productId, quantity from carthasproducts where cartId = " + cart.getCartId());
             ArrayList<Product> products = new ArrayList<Product>();
 
             while (resultSet.next())
             {
                 Product product = getProductById(resultSet.getInt(1));
                 totalPrice += product.getPrice();
-                int cantity = resultSet.getInt(2);
-                while(cantity>0) {
+                int quantity = resultSet.getInt(2);
+                while(quantity>0) {
                     products.add(product);
-                    cantity--;
+                    quantity--;
                 }
             }
             cart.setProducts(products);
