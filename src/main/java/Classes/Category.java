@@ -11,7 +11,7 @@ public class Category {
 
     @Override
     public String toString() {
-        return "ID: " + categoryId + '\n' +
+        return "Category id: " + categoryId + '\n' +
                 "Category Name: " + categoryName + '\n';
     }
 

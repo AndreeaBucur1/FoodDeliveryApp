@@ -13,7 +13,7 @@ public class Account {
 
     @Override
     public String toString() {
-        return "ID: " + accountId + '\n' +
+        return "Account id: " + accountId + '\n' +
                 "Email: " + email + '\n' +
                 "Password: " + password + '\n';
     }

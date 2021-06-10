@@ -126,7 +126,7 @@ public class CreateObjects {
 
     public void addOrder(Order order) throws SQLException {
         PreparedStatement preparedStatement = null;
-        preparedStatement = connection.prepareStatement("insert into orders (clientId,totalPrice,address,orderDate) values (?,?,?,?)");
+        preparedStatement = connection.prepareStatement("insert into orders (clientId,totalPrice,adress,orderDate) values (?,?,?,?)");
         preparedStatement.setInt(1,order.getClientId());
         preparedStatement.setDouble(2,order.getTotalPrice());
         preparedStatement.setString(3,order.getAddress());

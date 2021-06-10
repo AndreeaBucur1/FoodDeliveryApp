@@ -151,23 +151,14 @@ public class ClientServices {
 
     }
 
-<<<<<<< Updated upstream
-    public float orderPrice(ArrayList<Product> products){
-        float totalPrice = 0;
-        for(Product product : products){
-            totalPrice += product.getPrice();
-=======
     public double orderPrice(ArrayList<Product> products){
         double totalPrice = 0;
         for(Product product : products){
             totalPrice += ((double) product.getPrice());
->>>>>>> Stashed changes
         }
         return totalPrice;
     }
 
-<<<<<<< Updated upstream
-=======
     public double priceAfterDiscount(double totalPrice){
         if(totalPrice < 150 && totalPrice >= 120)
             return  90/100.*totalPrice;
@@ -181,7 +172,6 @@ public class ClientServices {
     }
 
 
->>>>>>> Stashed changes
     public ArrayList<Product> chooseProducts(int categoryId) throws SQLException {
         ArrayList<Product> productsFromThisCategory = new ArrayList<>();
         productsFromThisCategory = databaseConnection.getAllProductsByCategoryId(categoryId);

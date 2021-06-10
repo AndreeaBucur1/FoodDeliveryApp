@@ -14,11 +14,7 @@ public class DatabaseConnection {
             return connection;
         } else {
             try {
-<<<<<<< Updated upstream
-                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/FoodDeliveryApp", "root", "**");
-=======
                 connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/fooddeliveryapp", "root", "root");
->>>>>>> Stashed changes
                 return connection;
             } catch (SQLException throwables) {
                 throwables.printStackTrace();

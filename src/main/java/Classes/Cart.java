@@ -78,7 +78,7 @@ public class Cart {
 
     @Override
     public String toString() {
-        String show =   "ID" + cartId + '\n' +
+        String show =   "Cart id:" + cartId + '\n' +
                 "Client id: " + clientId + '\n' +
                 "Products:\n ";
 

@@ -1,5 +1,9 @@
 package Classes;
 
+import Database.DatabaseConnection;
+
+import java.sql.SQLException;
+
 public class Product {
     private int productId;
     private int categoryId;
@@ -59,10 +63,17 @@ public class Product {
 
     @Override
     public String toString() {
-        return  "ID: " + productId + '\n' +
-                "Category id: " + categoryId + '\n' +
-                "Product name: " + productName + '\n' +
-                "Price: " + price + "RON\n" +
-                "Description: " + description + '\n';
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+
+        try {
+            return  /*"Product id: " + productId + '\n' +*/
+                    "Product name: " + productName + '\n' +
+                    "Category: " + databaseConnection.getCategoryById(categoryId).getCategoryName() + '\n' +
+                    "Price: " + price + "RON\n" +
+                    "Description: " + description + '\n';
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return null;
     }
 }

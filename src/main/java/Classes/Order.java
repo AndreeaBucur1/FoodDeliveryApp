@@ -1,7 +1,14 @@
 package Classes;
 
+import Database.DatabaseConnection;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Order {
     private int orderId;
@@ -37,16 +44,33 @@ public class Order {
 
     @Override
     public String toString() {
-        String show =
-                "ID: " + orderId + '\n' +
-                "Client id: " + clientId + '\n' +
-                "Products:\n";
-        for(Product p : products)
-            show += p.toString() + '\n';
-        show += "TotalPrice:" + totalPrice + '\n' +
+        HashMap<Product,Integer> orderProducts = new HashMap<Product, Integer>();
+        Connection connection = new DatabaseConnection().Connection();
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("select * from orderhasproducts where orderid = " + orderId);
+            while (resultSet.next()){
+                Product product = databaseConnection.getProductById(resultSet.getInt("productid"));
+                int quantity = resultSet.getInt("quantity");
+                orderProducts.put(product,quantity);
+
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        final String[] show = {"Order id: " + orderId + '\n' +
+                /*"Client id: " + clientId + '\n' +*/
+                "Products:\n"};
+//        for(Product p : products)
+//            show += p.toString() + '\n';
+
+        orderProducts.forEach((key,value) -> show[0] += key  + "Number of products: " + value + '\n' + '\n');
+        show[0] += "TotalPrice:" + totalPrice + '\n' +
                 "Address: " + address + '\n' +
-                "Order date: " + orderDate + '\n';
-        return show;
+                "Order date: " + orderDate + '\n' + '\n';
+        return show[0];
     }
 
     public int getOrderId() {
