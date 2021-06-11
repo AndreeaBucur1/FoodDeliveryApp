@@ -1,10 +1,8 @@
 package ServiceClasses;
 
-import Classes.Account;
-import Classes.Cart;
-import Classes.Order;
-import Classes.Product;
+import Classes.*;
 import Database.DatabaseConnection;
+import java.time.LocalDateTime;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -57,13 +55,23 @@ public class ClientServices {
             System.out.println("Option 4: Delete your account");
             System.out.println("Option 5: Change password");
             System.out.println("Option 6: Fill in the employment form");
-            System.out.println("Option 7: Exit");
+            System.out.println("Option 7: Leave review to a product");
+            System.out.println("Option 8: Exit");
             option = scanner.nextInt();
             if(option == 1)
             {
                 ArrayList<Product> products = databaseConnection.getAllProducts();
-                for(Product p : products)
+                ArrayList<Review> reviews = databaseConnection.getAllReviews();
+                for(Product p : products) {
                     System.out.println(p);
+                    for (Review r : reviews)
+                        if (r.getIdProdus() == p.getProductId())
+                        {
+
+                            System.out.println(r.getContinut() + "    " + databaseConnection.getEmailByClientId(r.getIdClient()) + "   " +
+                                    r.getData());
+                        }
+                }
             }
             if(option == 3) {
                 ArrayList<Order> orders = databaseConnection.getOrdersByClientId(account.getAccountId());
@@ -92,7 +100,11 @@ public class ClientServices {
                 {
                     fillForm(account.getAccountId());
                 }
-        }while (option!=7);
+            if (option == 7 )
+            {
+                leaveReview(account.getAccountId());
+            }
+        }while (option!=8);
     }
 
     public void placeOrder(int clientId) throws SQLException {
@@ -221,6 +233,27 @@ public class ClientServices {
         if (rowsInserted > 0) {
             System.out.println(" The form has been completed successfully! ");
         }
+    }
+
+    public void leaveReview(int idClient) throws SQLException {
+        System.out.println("Insert the id to the product you want to review :");
+        int idProd = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("Leave review...");
+        String review = scanner.nextLine();
+        LocalDate data = LocalDate.now();
+
+        String sql = "INSERT INTO recenzie (continut, idProdus, idClient, data) VALUES(?, ?, ?, ?)";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, review);
+        statement.setInt(2, idProd);
+        statement.setInt(3, idClient);
+        statement.setDate(4, Date.valueOf(data));
+        int rowsInserted = statement.executeUpdate();
+        if (rowsInserted > 0) {
+            System.out.println(" The review has been completed successfully! ");
+        }
+
     }
 
 }

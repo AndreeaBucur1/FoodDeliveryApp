@@ -63,6 +63,8 @@ public class Product {
                 "Category id: " + categoryId + '\n' +
                 "Product name: " + productName + '\n' +
                 "Price: " + price + "RON\n" +
-                "Description: " + description + '\n';
+                "Description: " + description + '\n' +
+                "Reviews: " + '\n';
+
     }
 }
