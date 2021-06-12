@@ -2,6 +2,7 @@ package Database;
 
 import Classes.*;
 
+import javax.xml.crypto.Data;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -58,6 +59,18 @@ public class DatabaseConnection {
         return products;
     }
 
+
+    public ArrayList<Review> getAllReviews() throws SQLException{
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("select * from recenzie");
+        ArrayList<Review> reviews = new ArrayList<>();
+        while (resultSet.next()){
+            Review review = new Review(resultSet.getInt(1),resultSet.getString(2),resultSet.getInt(3),resultSet.getInt(4), resultSet.getDate(5).toLocalDate());
+            reviews.add(review);
+        }
+        return reviews;
+    }
+
     public ArrayList<Product> getAllProductsByCategoryId(int categoryId) throws SQLException{
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("select * from product where categoryId = " + categoryId);
@@ -102,6 +115,18 @@ public class DatabaseConnection {
             orders.add(order);
         }
         return orders;
+    }
+
+    public String getEmailByClientId(int id) throws SQLException {
+        DatabaseConnection database = new DatabaseConnection();
+        Connection connection = database.Connection();
+        ArrayList<Account> accounts = new ArrayList<>();
+        accounts = database.getAllAccounts();
+        for ( Account acc : accounts )
+            if ( acc.getAccountId() == id )
+                return acc.getEmail();
+
+        return null;
     }
 
     public ArrayList<Order> getOrdersByClientId (int id) throws SQLException {
