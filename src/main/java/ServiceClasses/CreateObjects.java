@@ -14,7 +14,7 @@ public class CreateObjects {
     DeleteObjects deleteObjects = new DeleteObjects();
 
     public void createAccount() throws SQLException {
-        System.out.print("Enter your email adress: ");
+        System.out.print("Enter your email address: ");
         String email = scanner.next();
         System.out.print("Enter your password: ");
         String password = scanner.next();
@@ -126,7 +126,7 @@ public class CreateObjects {
 
     public void addOrder(Order order) throws SQLException {
         PreparedStatement preparedStatement = null;
-        preparedStatement = connection.prepareStatement("insert into orders (clientId,totalPrice,adress,orderDate) values (?,?,?,?)");
+        preparedStatement = connection.prepareStatement("insert into orders (clientId,totalPrice,address,orderDate) values (?,?,?,?)");
         preparedStatement.setInt(1,order.getClientId());
         preparedStatement.setDouble(2,order.getTotalPrice());
         preparedStatement.setString(3,order.getAddress());

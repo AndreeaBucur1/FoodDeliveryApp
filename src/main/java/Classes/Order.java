@@ -18,6 +18,8 @@ public class Order {
     private String address;
     private LocalDate orderDate;
 
+
+
     public Order(int clientId, ArrayList<Product> products, double totalPrice, String address, LocalDate orderDate) {
         this.products = new ArrayList<>();
         this.clientId = clientId;

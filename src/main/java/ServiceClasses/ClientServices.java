@@ -196,7 +196,7 @@ public class ClientServices {
         return orderedProducts;
     }
     public void placeOrder ( Cart cart) throws SQLException {
-        System.out.println("Enter your adress: ");
+        System.out.println("Enter your address: ");
         scanner.nextLine();
         String address = scanner.nextLine().toString();
 
@@ -211,17 +211,17 @@ public class ClientServices {
     }
 
     public void fillForm( int clientId) throws SQLException {
-        System.out.println(" First name : ");
+        System.out.print("First name : ");
         String nume = scanner.next();
-        System.out.println(" Last name :");
+        System.out.print("Last name :");
         String prenume = scanner.next();
-        System.out.println("Age :");
+        System.out.print("Age :");
         int varsta = scanner.nextInt();
-        System.out.println(" Email :");
+        System.out.print("Email :");
         String email = scanner.next();
-        System.out.println(" Last unit graduated :");
+        System.out.print("Last unit graduated :");
         String graduated = scanner.next();
-        System.out.println(" Do you work elsewhere? (Yes/No)");
+        System.out.print("Do you work elsewhere? (Yes/No)");
         String occupation = scanner.next();
 
         String sql = "INSERT INTO form (clientId, nume, prenume, age, email, ultimaUnitateInvatamantAbsolvita, altaOcupatie) VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -237,7 +237,7 @@ public class ClientServices {
 
         int rowsInserted = statement.executeUpdate();
         if (rowsInserted > 0) {
-            System.out.println(" The form has been completed successfully! ");
+            System.out.println("The form has been completed successfully! ");
         }
     }
 
