@@ -213,10 +213,11 @@ public class ClientServices {
         int varsta = scanner.nextInt();
         System.out.println(" Email :");
         String email = scanner.next();
+        scanner.nextLine();
         System.out.println(" Last unit graduated :");
-        String graduated = scanner.next();
+        String graduated = scanner.nextLine();
         System.out.println(" Do you work elsewhere? (Yes/No)");
-        String occupation = scanner.next();
+        String occupation = scanner.nextLine();
 
         String sql = "INSERT INTO form (clientId, nume, prenume, age, email, ultimaUnitateInvatamantAbsolvita, altaOcupatie) VALUES (?, ?, ?, ?, ?, ?, ?)";
 

@@ -1,0 +1,44 @@
+			Bug Report
+
+Titlu : Introducerea inputului pentru acceptarea unui formular de catre manager duce intr-o bucla infinita.
+
+Numele celui care a raportat bug-ul : Cretu Daria
+
+Data raportarii bug-ului : 13.06.2021
+
+Cine a detectat : Developer
+
+Cum a fost detectat : Bug-ul a fost descoperit în timp ce se făcea o verificare a unor functionalități implementate
+
+Numele proiectului : MyDeliveryApp
+
+Release/Build version : 8.0.24
+
+Environment : Windows 10
+
+Prioritate : Prioritate mare
+
+Severitate : Major
+
+Status :  Nou
+
+Pasi de reprodus : i) Am optat pentru opțiunea Connect as a manager
+		   ii) Am optat pentru opțiunea Review employments forms
+		   iii) Am introdus id-ul formularului de revizuit
+		   iv) Am introdus una dintre cele 2 opțiuni "Accept" / "Reject"
+		   v) Se cere în continuare o opțiune 
+
+Rezultatul asteptat : Un mesaj ar trebui afisat in functie de actiune efectuata. "The employee has been accepted"
+pentru optiunea "Accept" si "The form has been rejected!" pentru optiunea "Reject"
+
+Rezultatul actual : Ni se va cere sa inserăm opțiunea Accept/Reject indiferent de ce inserăm, practic, se formează 
+un loop infinit
+
+Data inchiderii bug-ului : 15.06.2021
+
+
+
+
+
+
+

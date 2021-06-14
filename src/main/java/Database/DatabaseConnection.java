@@ -15,7 +15,7 @@ public class DatabaseConnection {
             return connection;
         } else {
             try {
-                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/fooddeliveryapp", "root", "root");
+                connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/fooddeliveryapp", "root", "Ciresica90!");
                 return connection;
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -69,6 +69,33 @@ public class DatabaseConnection {
             reviews.add(review);
         }
         return reviews;
+    }
+
+    public ArrayList<Form> getAllForms() throws SQLException {
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("select * from form");
+        ArrayList<Form> forms = new ArrayList<>();
+        while (resultSet.next()){
+            Form form = new Form(resultSet.getInt("idForm"),resultSet.getInt("clientId"), resultSet.getString("nume"),
+                    resultSet.getString("prenume"), resultSet.getInt("age"), resultSet.getString("email"),
+                    resultSet.getString("ultimaUnitateInvatamantAbsolvita"), resultSet.getString("altaOcupatie"));
+            forms.add(form);
+        }
+        return forms;
+    }
+
+    public Form getFormyById(int formId) throws SQLException {
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("select * from form where idForm = " + formId);
+        if(resultSet.next()){
+            Form form = new Form(resultSet.getInt("idForm"),resultSet.getInt("clientId"), resultSet.getString("nume"),
+                    resultSet.getString("prenume"), resultSet.getInt("age"), resultSet.getString("email"),
+                    resultSet.getString("ultimaUnitateInvatamantAbsolvita"), resultSet.getString("altaOcupatie"));
+            return form;
+        }
+        else{
+            return null;
+        }
     }
 
     public ArrayList<Product> getAllProductsByCategoryId(int categoryId) throws SQLException{

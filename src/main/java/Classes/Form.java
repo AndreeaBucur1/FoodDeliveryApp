@@ -90,8 +90,13 @@ public class Form {
     @Override
     public String toString()
     {
-        return "ID Form : " + formId + "; Last name : " + nume + "; First name : " + prenume +
-                "; age : " + varsta + "; email : " + email + " ; Last unit graduated : " +
-                ultimaUnitateInvatamantAbsolvita + " ; Works elsewhere : " + altaOcupatie;
+        return  "ID Form : " + formId + '\n' +
+                "Id client: " + clientId + '\n' +
+                "Last name : " + nume + '\n' +
+                "First name : " + prenume + '\n' +
+                "Age : " + varsta + '\n' +
+                "Email : " + email + '\n' +
+                "Last unit graduated : " + ultimaUnitateInvatamantAbsolvita + '\n' +
+                "Works elsewhere : " + altaOcupatie + '\n';
     }
 }
